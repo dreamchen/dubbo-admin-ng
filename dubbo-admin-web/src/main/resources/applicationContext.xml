@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫包配置 -->
+    <context:component-scan
+            base-package="com.by.dubbo.admin.dao.impl,com.by.dubbo.admin.service,com.by.dubbo.admin.zoo,com.by.dubbo.admin.watcher"/>
+
+    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!-- 这里支持多种寻址方式：classpath和file -->
+                <value>classpath:prop/common.properties</value>
+                <value>classpath:prop/mysql.properties</value>
+                <!-- 推荐使用file的方式引入，这样可以将配置和代码分离 -->
+                <!--<value>file:/opt/demo/config/demo-mq.properties</value>-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- 引入其他资源配置文件 -->
+    <import resource="conf/spring-config-datasource-druid.xml"/>
+    <import resource="conf/spring-config-mysql-dao.xml"/>
+    <import resource="conf/spring-config-service.xml"/>
+</beans>
